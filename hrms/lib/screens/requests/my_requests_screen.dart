@@ -191,12 +191,19 @@ class _LeaveRequestsTabState extends State<LeaveRequestsTab> {
     if (mounted) {
       if (result['success']) {
         setState(() {
-          _leaves = result['data']['leaves'] ?? [];
-          final pagination = result['data']['pagination'];
-          if (pagination != null) {
-            _totalItems = pagination['total'] ?? 0;
-            _totalPages = pagination['pages'] ?? 0;
-            _currentPage = pagination['page'] ?? 1;
+          if (result['data'] is Map) {
+            _leaves = result['data']['leaves'] ?? [];
+            final pagination = result['data']['pagination'];
+            if (pagination != null) {
+              _totalItems = pagination['total'] ?? 0;
+              _totalPages = pagination['pages'] ?? 0;
+              _currentPage = pagination['page'] ?? 1;
+            }
+          } else if (result['data'] is List) {
+            _leaves = result['data'];
+            _totalItems = _leaves.length;
+            _totalPages = 1;
+            _currentPage = 1;
           }
           _isLoading = false;
         });
@@ -953,12 +960,19 @@ class _LoanRequestsTabState extends State<LoanRequestsTab> {
     if (mounted) {
       if (result['success']) {
         setState(() {
-          _loans = result['data']['loans'] ?? [];
-          final pagination = result['data']['pagination'];
-          if (pagination != null) {
-            _totalItems = pagination['total'] ?? 0;
-            _totalPages = pagination['pages'] ?? 0;
-            _currentPage = pagination['page'] ?? 1;
+          if (result['data'] is Map) {
+            _loans = result['data']['loans'] ?? [];
+            final pagination = result['data']['pagination'];
+            if (pagination != null) {
+              _totalItems = pagination['total'] ?? 0;
+              _totalPages = pagination['pages'] ?? 0;
+              _currentPage = pagination['page'] ?? 1;
+            }
+          } else if (result['data'] is List) {
+            _loans = result['data'];
+            _totalItems = _loans.length;
+            _totalPages = 1;
+            _currentPage = 1;
           }
           _isLoading = false;
         });
@@ -1674,12 +1688,19 @@ class _ExpenseRequestsTabState extends State<ExpenseRequestsTab> {
     if (mounted) {
       if (result['success']) {
         setState(() {
-          _expenses = result['data']['reimbursements'] ?? [];
-          final pagination = result['data']['pagination'];
-          if (pagination != null) {
-            _totalItems = pagination['total'] ?? 0;
-            _totalPages = pagination['pages'] ?? 0;
-            _currentPage = pagination['page'] ?? 1;
+          if (result['data'] is Map) {
+            _expenses = result['data']['reimbursements'] ?? [];
+            final pagination = result['data']['pagination'];
+            if (pagination != null) {
+              _totalItems = pagination['total'] ?? 0;
+              _totalPages = pagination['pages'] ?? 0;
+              _currentPage = pagination['page'] ?? 1;
+            }
+          } else if (result['data'] is List) {
+            _expenses = result['data'];
+            _totalItems = _expenses.length;
+            _totalPages = 1;
+            _currentPage = 1;
           }
           _isLoading = false;
         });

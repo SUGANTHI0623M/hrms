@@ -122,6 +122,10 @@ class AttendanceService {
           .get(Uri.parse('$baseUrl/attendance/today'), headers: headers)
           .timeout(const Duration(seconds: 10));
 
+      print('DEBUG: Requesting Today Attendance: $baseUrl/attendance/today');
+      print('DEBUG: Today Attendance Status: ${response.statusCode}');
+      print('DEBUG: Today Attendance Body: ${response.body}');
+
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         return {'success': true, 'data': data};
@@ -199,6 +203,12 @@ class AttendanceService {
             headers: headers,
           )
           .timeout(const Duration(seconds: 10));
+
+      print(
+        'DEBUG: Requesting Month Attendance: $baseUrl/attendance/month?year=$year&month=$month',
+      );
+      print('DEBUG: Month Attendance Status: ${response.statusCode}');
+      print('DEBUG: Month Attendance Body: ${response.body}');
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);

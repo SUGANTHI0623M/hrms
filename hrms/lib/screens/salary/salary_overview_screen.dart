@@ -179,7 +179,11 @@ class _SalaryOverviewScreenState extends State<SalaryOverviewScreen> {
   }
 
   Widget _buildSummaryCards() {
-    final stats = _salaryData!['stats'] ?? {};
+    // Robust check: 'stats' might be nested or the object itself
+    final Map<String, dynamic> stats =
+        (_salaryData != null && _salaryData!.containsKey('stats'))
+        ? _salaryData!['stats']
+        : (_salaryData ?? {});
     final currencyFormat = NumberFormat.currency(locale: 'en_IN', symbol: '₹');
 
     // Fallbacks
@@ -278,7 +282,12 @@ class _SalaryOverviewScreenState extends State<SalaryOverviewScreen> {
   }
 
   Widget _buildAttendanceSummary() {
-    final att = _salaryData!['stats']?['attendance'] ?? {};
+    final Map<String, dynamic> stats =
+        (_salaryData != null && _salaryData!.containsKey('stats'))
+        ? _salaryData!['stats']
+        : (_salaryData ?? {});
+
+    final att = stats['attendance'] ?? {};
     final working = att['workingDays'] ?? 0;
     final present = att['presentDays'] ?? 0;
     final absent = att['absentDays'] ?? 0;
@@ -349,10 +358,13 @@ class _SalaryOverviewScreenState extends State<SalaryOverviewScreen> {
   }
 
   Widget _buildEarningsDeductions() {
-    final earnings = _salaryData!['stats']?['earnings'] ?? [];
-    final deductions =
-        _salaryData!['stats']?['deductionComponents'] ??
-        []; // Fixed key name from controller
+    final Map<String, dynamic> stats =
+        (_salaryData != null && _salaryData!.containsKey('stats'))
+        ? _salaryData!['stats']
+        : (_salaryData ?? {});
+
+    final earnings = stats['earnings'] ?? [];
+    final deductions = stats['deductionComponents'] ?? [];
     final currencyFormat = NumberFormat.currency(locale: 'en_IN', symbol: '₹');
 
     return Row(
@@ -468,7 +480,12 @@ class _SalaryOverviewScreenState extends State<SalaryOverviewScreen> {
   }
 
   Widget _buildTotalCTC() {
-    final ctc = (_salaryData!['stats']?['ctc'] ?? 0).toDouble();
+    final Map<String, dynamic> stats =
+        (_salaryData != null && _salaryData!.containsKey('stats'))
+        ? _salaryData!['stats']
+        : (_salaryData ?? {});
+
+    final ctc = (stats['ctc'] ?? 0).toDouble();
     final currencyFormat = NumberFormat.currency(locale: 'en_IN', symbol: '₹');
 
     return Container(

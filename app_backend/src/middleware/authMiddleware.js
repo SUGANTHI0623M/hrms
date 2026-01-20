@@ -12,8 +12,16 @@ const protect = async (req, res, next) => {
         try {
             token = req.headers.authorization.split(' ')[1];
 
-            // LOGGING FOR DEBUGGING
-            // console.log('Auth Middleware - Token:', token.substring(0, 10) + '...');
+            // Sanitize token: Remove any surrounding quotes
+            const rawToken = token;
+            if (token.startsWith('"') || token.endsWith('"')) {
+                token = token.replace(/^"|"$/g, '');
+                console.log('DEBUG: AuthMiddleware - Token had quotes, sanitized');
+            }
+
+            console.log('DEBUG: AuthMiddleware - Raw token length:', rawToken.length);
+            console.log('DEBUG: AuthMiddleware - Sanitized token length:', token.length);
+            console.log('DEBUG: AuthMiddleware - Token preview:', token.substring(0, 20) + '...');
 
             // Ensure Secret matches Controller
             const secret = process.env.JWT_SECRET || 'secret';

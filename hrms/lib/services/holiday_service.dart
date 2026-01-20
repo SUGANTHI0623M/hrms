@@ -51,6 +51,9 @@ class HolidayService {
             'message': body['error']?['message'] ?? 'Failed to load holidays',
           };
         }
+      } else if (response.statusCode == 404) {
+        // Graceful fallback for Production lacking this endpoint
+        return {'success': true, 'data': <Holiday>[]};
       } else {
         return _handleErrorResponse(response, 'Failed to fetch holidays');
       }

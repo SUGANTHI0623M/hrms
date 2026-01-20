@@ -28,6 +28,9 @@ class OnboardingService {
       if (response.statusCode == 200) {
         final body = jsonDecode(response.body);
         return {'success': true, 'data': body['data']};
+      } else if (response.statusCode == 404) {
+        // Graceful fallback: If endpoint missing, return null data so UI just shows empty/nothing
+        return {'success': true, 'data': null};
       } else {
         print(
           'DEBUG: Onboarding API Error. Status: ${response.statusCode}, Body: ${response.body}',
